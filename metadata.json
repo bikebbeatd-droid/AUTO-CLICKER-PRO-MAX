@@ -1,0 +1,6 @@
+{
+  "name": "Auto Clicker Pro Max",
+  "description": "Professional cross-platform automation ecosystem with native Android clicker, Web Automation Studio, Script Studio, Visual Builder, Macro Recorder, AI Assistant, and Script Marketplace.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

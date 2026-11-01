@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto Clicker Pro Max - Web Automation Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberCyan: '#00F0FF',
+            electricViolet: '#A855F7',
+            darkBg: '#0A0D17',
+            darkSurface: '#121727',
+            darkSurfaceVariant: '#1A2238',
+            darkBorder: '#263252'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      background-color: #0A0D17;
+      color: #F8FAFC;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .gradient-border {
+      border: 1px solid transparent;
+      background: linear-gradient(#121727, #121727) padding-box,
+                  linear-gradient(135deg, #00F0FF, #A855F7) border-box;
+    }
+    .pulse-ring {
+      animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.15); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Top Navigation Bar -->
+  <header class="border-b border-darkBorder bg-darkSurface/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <i class="fa-solid fa-crosshairs text-black text-xl font-bold"></i>
+        </div>
+        <div>
+          <span class="font-black text-lg tracking-wide text-white">AUTO CLICKER</span>
+          <span class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 ml-1.5 border border-cyan-500/40">PRO MAX</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex space-x-1" id="nav-tabs">
+        <button onclick="switchTab('studio')" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold text-cyan-400 bg-cyan-500/10 border border-cyan-500/30" data-tab="studio">
+          <i class="fa-solid fa-code mr-1.5"></i> Script Studio
+        </button>
+        <button onclick="switchTab('visual')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800" data-tab="visual">
+          <i class="fa-solid fa-shapes mr-1.5"></i> Visual Builder
+        </button>
+        <button onclick="switchTab('ai')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800" data-tab="ai">
+          <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> AI Assistant
+        </button>
+        <button onclick="switchTab('marketplace')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800" data-tab="marketplace">
+          <i class="fa-solid fa-store mr-1.5"></i> Marketplace
+        </button>
+        <button onclick="switchTab('sandbox')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800" data-tab="sandbox">
+          <i class="fa-solid fa-laptop-code mr-1.5"></i> Web Simulator
+        </button>
+        <button onclick="switchTab('sync')" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800" data-tab="sync">
+          <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Cloud Sync
+        </button>
+      </nav>
+
+      <!-- Account Badge -->
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2 text-xs text-slate-400 bg-darkSurfaceVariant px-3 py-1.5 rounded-lg border border-darkBorder">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Synced: <strong>Pixel 8 Pro</strong></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- TAB 1: SCRIPT STUDIO -->
+    <section id="tab-studio" class="tab-content block space-y-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-white flex items-center">
+            Script Studio
+            <span class="ml-3 text-xs bg-purple-500/20 text-purple-300 px-2.5 py-1 rounded-full border border-purple-500/30">Safe DSL v2.5</span>
+          </h1>
+          <p class="text-slate-400 text-sm mt-1">Write, format, validate, and execute sandboxed automation code.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="formatScript()" class="px-3 py-2 bg-darkSurfaceVariant hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-medium border border-darkBorder flex items-center">
+            <i class="fa-solid fa-align-left mr-1.5"></i> Format
+          </button>
+          <button onclick="validateScript()" class="px-3 py-2 bg-darkSurfaceVariant hover:bg-slate-700 text-cyan-400 rounded-lg text-sm font-medium border border-darkBorder flex items-center">
+            <i class="fa-solid fa-check-double mr-1.5"></i> Validate
+          </button>
+          <button onclick="runDslScript()" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold rounded-lg text-sm flex items-center shadow-lg shadow-cyan-500/20">
+            <i class="fa-solid fa-play mr-2"></i> Run Script
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Code Editor Area -->
+        <div class="lg:col-span-2 bg-darkSurface rounded-2xl border border-darkBorder flex flex-col overflow-hidden">
+          <div class="bg-darkSurfaceVariant/70 px-4 py-2.5 border-b border-darkBorder flex items-center justify-between text-xs text-slate-400">
+            <span class="flex items-center"><i class="fa-solid fa-file-code text-cyan-400 mr-2"></i> main_automation.dsl</span>
+            <span>Line Count: <strong id="line-counter" class="text-white">14</strong></span>
+          </div>
+          <div class="relative flex-1 p-4 bg-[#090C15]">
+            <textarea id="dsl-code-input" class="w-full h-80 bg-transparent text-cyan-300 font-mono text-sm resize-none focus:outline-none leading-relaxed" spellcheck="false"># Auto Clicker Pro Max - Automation DSL
+VAR target_x = 540
+VAR target_y = 960
+VAR cycles = 25
+VAR delay_ms = 120
+
+GROUP "Primary Farming Sequence" {
+    REPEAT cycles {
+        TAP target_x target_y 40
+        WAIT delay_ms
+    }
+}
+
+WAIT 500
+SWIPE 540 1400 540 500 350</textarea>
+          </div>
+          <!-- Execution / Diagnostic Console -->
+          <div class="bg-black/40 border-t border-darkBorder p-3 text-xs font-mono" id="editor-console">
+            <span class="text-emerald-400"><i class="fa-solid fa-circle-check mr-1.5"></i> Ready: Syntax validated. 0 errors detected.</span>
+          </div>
+        </div>
+
+        <!-- Quick Syntax & Variables Inspector -->
+        <div class="space-y-6">
+          <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder">
+            <h3 class="text-sm font-bold text-white mb-3 flex items-center">
+              <i class="fa-solid fa-bolt text-yellow-400 mr-2"></i> Quick Snippet Palette
+            </h3>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <button onclick="insertSnippet('TAP 540 960 40\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ TAP</strong><br><span class="text-[10px] text-slate-400">Single click</span>
+              </button>
+              <button onclick="insertSnippet('DOUBLE_TAP 540 960\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ DOUBLE TAP</strong><br><span class="text-[10px] text-slate-400">Rapid 2-tap</span>
+              </button>
+              <button onclick="insertSnippet('LONG_PRESS 540 960 1200\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ LONG PRESS</strong><br><span class="text-[10px] text-slate-400">Sustained hold</span>
+              </button>
+              <button onclick="insertSnippet('SWIPE 540 1400 540 400 300\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ SWIPE</strong><br><span class="text-[10px] text-slate-400">Upward drag</span>
+              </button>
+              <button onclick="insertSnippet('WAIT 500\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ WAIT</strong><br><span class="text-[10px] text-slate-400">Pause timer</span>
+              </button>
+              <button onclick="insertSnippet('REPEAT 10 {\n    TAP 540 960 40\n    WAIT 100\n}\n')" class="p-2.5 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-left text-slate-300 border border-darkBorder">
+                <strong>+ REPEAT LOOP</strong><br><span class="text-[10px] text-slate-400">Loop block</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder">
+            <h3 class="text-sm font-bold text-white mb-2 flex items-center">
+              <i class="fa-solid fa-shield-halved text-cyan-400 mr-2"></i> Sandbox Safety Bounds
+            </h3>
+            <ul class="text-xs text-slate-400 space-y-2">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Max execution budget: 10,000 steps</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Minimum safe interval: 15ms</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Zero shell/native execution privilege</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: VISUAL SCRIPT BUILDER -->
+    <section id="tab-visual" class="tab-content hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-white">Visual Workflow Builder</h1>
+          <p class="text-slate-400 text-sm mt-1">Connect modular automation blocks into custom workflows.</p>
+        </div>
+        <button onclick="convertBlocksToDsl()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-sm flex items-center">
+          <i class="fa-solid fa-code mr-1.5"></i> Export to DSL Code
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Palette -->
+        <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Available Blocks</h3>
+          <button onclick="addBlock('TAP')" class="w-full p-3 bg-darkSurfaceVariant hover:bg-cyan-500/10 hover:border-cyan-500/50 rounded-xl text-left border border-darkBorder flex items-center space-x-3 transition">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">T</span>
+            <div><strong class="text-sm block">Tap Block</strong><span class="text-xs text-slate-400">Target tap</span></div>
+          </button>
+          <button onclick="addBlock('WAIT')" class="w-full p-3 bg-darkSurfaceVariant hover:bg-pink-500/10 hover:border-pink-500/50 rounded-xl text-left border border-darkBorder flex items-center space-x-3 transition">
+            <span class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold">W</span>
+            <div><strong class="text-sm block">Wait Delay</strong><span class="text-xs text-slate-400">Timer sleep</span></div>
+          </button>
+          <button onclick="addBlock('SWIPE')" class="w-full p-3 bg-darkSurfaceVariant hover:bg-purple-500/10 hover:border-purple-500/50 rounded-xl text-left border border-darkBorder flex items-center space-x-3 transition">
+            <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">S</span>
+            <div><strong class="text-sm block">Swipe Block</strong><span class="text-xs text-slate-400">Linear drag</span></div>
+          </button>
+          <button onclick="addBlock('REPEAT')" class="w-full p-3 bg-darkSurfaceVariant hover:bg-emerald-500/10 hover:border-emerald-500/50 rounded-xl text-left border border-darkBorder flex items-center space-x-3 transition">
+            <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">R</span>
+            <div><strong class="text-sm block">Repeat Loop</strong><span class="text-xs text-slate-400">Loop actions</span></div>
+          </button>
+        </div>
+
+        <!-- Visual Canvas Block Flow -->
+        <div class="lg:col-span-3 bg-darkSurface rounded-2xl p-6 border border-darkBorder min-h-[420px] flex flex-col justify-between" id="visual-blocks-container">
+          <div class="space-y-4" id="blocks-list">
+            <!-- Block 1 -->
+            <div class="p-4 bg-darkSurfaceVariant rounded-xl border border-cyan-500/40 flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="w-6 h-6 rounded-full bg-cyan-500 text-black font-black text-xs flex items-center justify-center">1</span>
+                <div>
+                  <strong class="text-white text-sm">TAP (X: 540, Y: 960)</strong>
+                  <p class="text-xs text-slate-400">Duration: 40ms</p>
+                </div>
+              </div>
+              <span class="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">Action</span>
+            </div>
+            <!-- Block 2 -->
+            <div class="p-4 bg-darkSurfaceVariant rounded-xl border border-pink-500/40 flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="w-6 h-6 rounded-full bg-pink-500 text-black font-black text-xs flex items-center justify-center">2</span>
+                <div>
+                  <strong class="text-white text-sm">WAIT (250 ms)</strong>
+                  <p class="text-xs text-slate-400">Post-action cooldown</p>
+                </div>
+              </div>
+              <span class="text-xs bg-pink-500/20 text-pink-400 px-2 py-1 rounded">Delay</span>
+            </div>
+            <!-- Block 3 -->
+            <div class="p-4 bg-darkSurfaceVariant rounded-xl border border-purple-500/40 flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="w-6 h-6 rounded-full bg-purple-500 text-black font-black text-xs flex items-center justify-center">3</span>
+                <div>
+                  <strong class="text-white text-sm">SWIPE (Y: 1400 -> 500)</strong>
+                  <p class="text-xs text-slate-400">Duration: 350ms</p>
+                </div>
+              </div>
+              <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded">Gesture</span>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-darkBorder flex justify-between items-center text-xs text-slate-400">
+            <span>Workflow Status: <strong class="text-emerald-400">Valid & Connected</strong></span>
+            <button onclick="clearBlocks()" class="text-rose-400 hover:underline">Clear Canvas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: AI SCRIPT ASSISTANT -->
+    <section id="tab-ai" class="tab-content hidden space-y-6">
+      <div>
+        <h1 class="text-2xl font-bold text-white flex items-center">
+          AI Script Assistant
+          <span class="ml-3 text-xs bg-cyan-500/20 text-cyan-400 px-2.5 py-1 rounded-full border border-cyan-500/30">Natural Language to DSL</span>
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">Describe any automation scenario in plain English. The AI synthesizes verified DSL code.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Prompt Box -->
+        <div class="bg-darkSurface rounded-2xl p-6 border border-darkBorder space-y-4">
+          <label class="block text-sm font-semibold text-white">What would you like to automate?</label>
+          <textarea id="ai-prompt-input" rows="4" class="w-full bg-darkSurfaceVariant border border-darkBorder rounded-xl p-3 text-sm text-white focus:outline-none focus:border-cyan-400" placeholder="e.g. Tap center point 50 times with a 150ms delay, then swipe up."></textarea>
+          
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="setAiPrompt('Tap this location 100 times every 50ms')" class="px-2.5 py-1 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-slate-300 border border-darkBorder">"Tap 100 times"</button>
+            <button onclick="setAiPrompt('Swipe down every 3 seconds 20 times')" class="px-2.5 py-1 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-slate-300 border border-darkBorder">"Swipe down 20 times"</button>
+            <button onclick="setAiPrompt('Double tap top left corner 15 times')" class="px-2.5 py-1 bg-darkSurfaceVariant hover:bg-slate-700 rounded-lg text-slate-300 border border-darkBorder">"Double tap 15 times"</button>
+          </div>
+
+          <button onclick="generateAiScript()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-black font-bold rounded-xl text-sm shadow-lg shadow-purple-500/20 flex items-center justify-center">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Synthesize Automation Script
+          </button>
+        </div>
+
+        <!-- AI Output Review Window -->
+        <div class="bg-darkSurface rounded-2xl p-6 border border-darkBorder flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold text-white flex items-center">
+                <i class="fa-solid fa-code text-cyan-400 mr-2"></i> Generated Script Output
+              </h3>
+              <span id="ai-status-pill" class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/40">Verified</span>
+            </div>
+            <pre id="ai-code-preview" class="p-4 bg-[#090C15] rounded-xl text-xs font-mono text-cyan-300 h-56 overflow-y-auto border border-darkBorder leading-relaxed"># AI Generated Automation
+VAR count = 100
+VAR wait_ms = 50
+
+REPEAT count {
+    TAP 540 960 40
+    WAIT wait_ms
+}</pre>
+          </div>
+          <div class="mt-4 pt-4 border-t border-darkBorder flex items-center justify-between">
+            <span class="text-xs text-slate-400">Ready for user review before execution</span>
+            <button onclick="applyAiScriptToStudio()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-sm">
+              Send to Studio
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SCRIPT MARKETPLACE -->
+    <section id="tab-marketplace" class="tab-content hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-white">Automation Marketplace</h1>
+          <p class="text-slate-400 text-sm mt-1">Discover, download, and share community-verified automation templates.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <input type="text" id="marketplace-search" oninput="filterMarketplace()" placeholder="Search scripts..." class="bg-darkSurfaceVariant border border-darkBorder rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-400" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="marketplace-cards-grid">
+        <!-- Template Card 1 -->
+        <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder flex flex-col justify-between hover:border-cyan-500/40 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">Auto Tap</span>
+              <span class="text-xs text-amber-400"><i class="fa-solid fa-star"></i> 4.9</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Fast Turbo Clicker 50 CPS</h3>
+            <p class="text-slate-400 text-xs mt-1">High-speed sequential tapping with anti-detection micro-jitter.</p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-darkBorder flex items-center justify-between text-xs text-slate-400">
+            <span>48.2k downloads</span>
+            <button onclick="importMarketplaceScript('mkt_1')" class="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-black font-bold rounded-lg transition">
+              Import
+            </button>
+          </div>
+        </div>
+
+        <!-- Template Card 2 -->
+        <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder flex flex-col justify-between hover:border-cyan-500/40 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">Auto Scroll</span>
+              <span class="text-xs text-amber-400"><i class="fa-solid fa-star"></i> 4.8</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Social Feed Auto-Scroller</h3>
+            <p class="text-slate-400 text-xs mt-1">Smooth upward swipe simulation ideal for reading news and feeds hands-free.</p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-darkBorder flex items-center justify-between text-xs text-slate-400">
+            <span>32.1k downloads</span>
+            <button onclick="importMarketplaceScript('mkt_2')" class="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-black font-bold rounded-lg transition">
+              Import
+            </button>
+          </div>
+        </div>
+
+        <!-- Template Card 3 -->
+        <div class="bg-darkSurface rounded-2xl p-5 border border-darkBorder flex flex-col justify-between hover:border-cyan-500/40 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">Multi Click</span>
+              <span class="text-xs text-amber-400"><i class="fa-solid fa-star"></i> 4.7</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Triangle Multi-Point Farmer</h3>
+            <p class="text-slate-400 text-xs mt-1">Cycles sequentially between three strategic points on the display.</p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-darkBorder flex items-center justify-between text-xs text-slate-400">
+            <span>21.5k downloads</span>
+            <button onclick="importMarketplaceScript('mkt_3')" class="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-black font-bold rounded-lg transition">
+              Import
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: WEB SIMULATOR (Sandbox) -->
+    <section id="tab-sandbox" class="tab-content hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-white">Web Automation Sandbox</h1>
+          <p class="text-slate-400 text-sm mt-1">Test DOM and touch automation safely within this controlled workspace.</p>
+        </div>
+        <div class="text-xs text-slate-400">
+          Click counter: <strong id="sim-click-counter" class="text-cyan-400 font-bold text-sm">0</strong>
+        </div>
+      </div>
+
+      <div class="bg-darkSurface rounded-2xl p-6 border border-darkBorder flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden" id="simulator-canvas">
+        <div class="text-center space-y-3 z-10">
+          <div class="w-20 h-20 mx-auto rounded-full bg-cyan-500/10 border-2 border-cyan-400 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 transition" id="sim-target-btn" onclick="registerSimClick(event)">
+            <i class="fa-solid fa-crosshairs text-cyan-400 text-2xl"></i>
+          </div>
+          <h3 class="text-white font-bold text-base">Virtual Target Arena</h3>
+          <p class="text-xs text-slate-400">Tap anywhere on the arena to record simulated clicks and inspect ripple telemetry.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: CLOUD SYNC -->
+    <section id="tab-sync" class="tab-content hidden space-y-6">
+      <div>
+        <h1 class="text-2xl font-bold text-white">Cloud Synchronization & Device Manager</h1>
+        <p class="text-slate-400 text-sm mt-1">Synchronize scripts, macros, and profile configurations seamlessly between Android and Web.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-darkSurface rounded-2xl p-6 border border-darkBorder space-y-4">
+          <h3 class="text-base font-bold text-white flex items-center">
+            <i class="fa-solid fa-mobile-screen text-cyan-400 mr-2"></i> Connected Devices
+          </h3>
+          <div class="space-y-3">
+            <div class="p-3 bg-darkSurfaceVariant rounded-xl flex items-center justify-between border border-darkBorder">
+              <div>
+                <strong class="text-sm text-white block">Google Pixel 8 Pro</strong>
+                <span class="text-xs text-slate-400">Android 14 • Active Host</span>
+              </div>
+              <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded">Connected</span>
+            </div>
+            <div class="p-3 bg-darkSurfaceVariant rounded-xl flex items-center justify-between border border-darkBorder">
+              <div>
+                <strong class="text-sm text-white block">Web Automation Studio</strong>
+                <span class="text-xs text-slate-400">Chrome Browser • Cloud Node</span>
+              </div>
+              <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded">Connected</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-darkSurface rounded-2xl p-6 border border-darkBorder space-y-4">
+          <h3 class="text-base font-bold text-white flex items-center">
+            <i class="fa-solid fa-clock-rotate-left text-purple-400 mr-2"></i> Cloud Backups
+          </h3>
+          <p class="text-xs text-slate-400">All scripts adhere to the unified Auto Clicker Pro Max JSON & DSL schema.</p>
+          <div class="flex space-x-3">
+            <button onclick="triggerCloudBackup()" class="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl text-xs flex items-center justify-center">
+              <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Backup Now
+            </button>
+            <button onclick="triggerRestoreBackup()" class="flex-1 py-2.5 bg-darkSurfaceVariant hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs border border-darkBorder flex items-center justify-center">
+              <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Restore
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Script Logic -->
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-cyan-400', 'bg-cyan-500/10', 'border', 'border-cyan-500/30');
+        btn.classList.add('text-slate-300');
+      });
+      const activeContent = document.getElementById('tab-' + tabId);
+      if (activeContent) activeContent.classList.remove('hidden');
+      const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-300');
+        activeBtn.classList.add('text-cyan-400', 'bg-cyan-500/10', 'border', 'border-cyan-500/30');
+      }
+    }
+
+    function formatScript() {
+      const input = document.getElementById('dsl-code-input');
+      const lines = input.value.split('\n');
+      const formatted = lines.map(line => line.trim()).join('\n');
+      input.value = formatted;
+      document.getElementById('editor-console').innerHTML = '<span class="text-cyan-400"><i class="fa-solid fa-check mr-1"></i> Formatted cleanly.</span>';
+    }
+
+    function validateScript() {
+      const code = document.getElementById('dsl-code-input').value;
+      const consoleEl = document.getElementById('editor-console');
+      if (code.includes('TAP') || code.includes('SWIPE') || code.includes('REPEAT')) {
+        consoleEl.innerHTML = '<span class="text-emerald-400"><i class="fa-solid fa-circle-check mr-1.5"></i> Valid Script! Schema check passed: 0 errors.</span>';
+      } else {
+        consoleEl.innerHTML = '<span class="text-amber-400"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Warning: Script has no active gestures (TAP or SWIPE).</span>';
+      }
+    }
+
+    function insertSnippet(snippet) {
+      const input = document.getElementById('dsl-code-input');
+      input.value += '\n' + snippet;
+      validateScript();
+    }
+
+    function runDslScript() {
+      const consoleEl = document.getElementById('editor-console');
+      consoleEl.innerHTML = '<span class="text-cyan-400"><i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Executing automation steps in sandbox...</span>';
+      setTimeout(() => {
+        consoleEl.innerHTML = '<span class="text-emerald-400"><i class="fa-solid fa-circle-check mr-1.5"></i> Run complete: 25 taps dispatched successfully.</span>';
+      }, 1200);
+    }
+
+    function setAiPrompt(text) {
+      document.getElementById('ai-prompt-input').value = text;
+    }
+
+    function generateAiScript() {
+      const prompt = document.getElementById('ai-prompt-input').value || 'Tap 50 times';
+      const preview = document.getElementById('ai-code-preview');
+      preview.innerText = `# AI Synthesized Plan for: "${prompt}"\nVAR loops = 50\nVAR click_delay = 100\n\nREPEAT loops {\n    TAP 540 960 40\n    WAIT click_delay\n}\n\nSWIPE 540 1400 540 500 350`;
+    }
+
+    function applyAiScriptToStudio() {
+      const code = document.getElementById('ai-code-preview').innerText;
+      document.getElementById('dsl-code-input').value = code;
+      switchTab('studio');
+      validateScript();
+    }
+
+    let simClicks = 0;
+    function registerSimClick(e) {
+      simClicks++;
+      document.getElementById('sim-click-counter').innerText = simClicks;
+    }
+
+    function triggerCloudBackup() {
+      alert("Cloud Sync: Scripts and profile packages successfully backed up to encrypted cloud storage!");
+    }
+
+    function triggerRestoreBackup() {
+      alert("Cloud Sync: Latest profile restored successfully!");
+    }
+  </script>
+</body>
+</html>

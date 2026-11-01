@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Auto Clicker Pro Max</string>
+    <string name="accessibility_service_description">Auto Clicker Pro Max uses the Accessibility Service exclusively to simulate user-configured tap and swipe gestures. It never collects, records, or shares personal data, screen content, or passwords.</string>
+</resources>
